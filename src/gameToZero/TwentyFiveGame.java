@@ -15,15 +15,9 @@ public class TwentyFiveGame extends Game {
         start = 25;
     }
 
-    public static void solve() {
-        Game g = new TwentyFiveGame();
-        Solver s = new Solver(g);
-        for (int i = 0; i <= start; i += 1) {
-            System.out.println(i + ": " + s.solve(i));
-        }
-    }
-
     public static void main(String[] args) {
-        solve();
+        Game twentyfive = new TwentyFiveGame();
+        Solver s = new Solver(twentyfive);
+        solve(s);
     }
 }

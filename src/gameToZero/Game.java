@@ -2,6 +2,9 @@ package gameToZero;
 
 import java.util.ArrayList;
 
+/** Parent class of TenGame and TwentyFiveGame.
+ *  @author janise
+ */
 public abstract class Game {
     static int[] legalMoves;
     static int start;
@@ -24,8 +27,18 @@ public abstract class Game {
         return res;
     }
 
+    int start() {
+        return start;
+    }
+
     static String primitiveValue(int position) {
         return position == 0 ? "lose" : "not_primitive";
+    }
+
+    static void solve(Solver s) {
+        for (int i = start; i >= 0; i -= 1) {
+            System.out.println(String.format("%02d", i) + ": " + s.solve(i));
+        }
     }
 
 }
