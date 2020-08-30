@@ -1,10 +1,8 @@
-package gameToZero;
+package gamesToZero;
 
 import java.util.ArrayList;
 
-/** Parent class of TenGame and TwentyFiveGame.
- *  @author janise
- */
+/** Parent class of TenGame and TwentyFiveGame. */
 public abstract class Game {
     static int[] legalMoves;
     static int start;
@@ -37,8 +35,7 @@ public abstract class Game {
 
     static void solve(Solver s) {
         for (int i = start; i >= 0; i -= 1) {
-            System.out.println(String.format("%02d", i) + ": " + s.solve(i));
+            System.out.println(String.format("%02d: ", i)+ s.solve(i));
         }
     }
-
 }

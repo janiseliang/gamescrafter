@@ -1,4 +1,4 @@
-package gameToZero;
+package gamesToZero;
 
 /** Game solver searches game tree and finds win value of POSITION.
  *  Caches previously-found win values of POSITION to optimize time.
@@ -11,7 +11,7 @@ public class Solver {
 
     public Solver(Game g) {
         game = g;
-        cache = new String[g.start()+1];
+        cache = new String[g.start() + 1];
     }
 
     public String solve(int position) {
