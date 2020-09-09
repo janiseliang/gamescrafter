@@ -4,7 +4,7 @@ package gamesToZero;
  *  and alternate picking 1 or 2 items. The player that takes the
  *  final item wins the game.
  */
-public class TenGame extends Game {
+public class TenGame extends GameToZero {
 
     public TenGame() {
         legalMoves = new int[]{1, 2};
@@ -12,7 +12,7 @@ public class TenGame extends Game {
     }
 
     public static void main(String[] args) {
-        Game g = new TenGame();
+        GameToZero g = new TenGame();
         Solver s = new Solver(g);
         solve(s);
     }

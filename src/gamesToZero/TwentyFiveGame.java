@@ -4,7 +4,7 @@ package gamesToZero;
  *  and alternate picking 1, 3, or 4 items each turn. The player that takes the
  *  final item wins the game.
  */
-public class TwentyFiveGame extends Game {
+public class TwentyFiveGame extends GameToZero {
 
     public TwentyFiveGame() {
         legalMoves = new int[]{1, 3, 4};
@@ -12,7 +12,7 @@ public class TwentyFiveGame extends Game {
     }
 
     public static void main(String[] args) {
-        Game g = new TwentyFiveGame();
+        GameToZero g = new TwentyFiveGame();
         Solver s = new Solver(g);
         solve(s);
     }

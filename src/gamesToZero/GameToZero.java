@@ -3,15 +3,15 @@ package gamesToZero;
 import java.util.ArrayList;
 
 /** Parent class of TenGame and TwentyFiveGame. */
-public abstract class Game {
+public abstract class GameToZero {
     static int[] legalMoves;
     static int start;
 
-    static int doMove(int position, int move) {
+    public static int doMove(int position, int move) {
         return position - move;
     }
 
-    int[] generateMoves(int position) {
+    public int[] generateMoves(int position) {
         ArrayList<Integer> moves = new ArrayList<>();
         for (int mv : legalMoves) {
             if (mv <= position) {
@@ -25,15 +25,15 @@ public abstract class Game {
         return res;
     }
 
-    int start() {
+    public int start() {
         return start;
     }
 
-    static String primitiveValue(int position) {
+    public static String primitiveValue(int position) {
         return position == 0 ? "lose" : "not_primitive";
     }
 
-    static void solve(Solver s) {
+    public static void solve(Solver s) {
         for (int i = start; i >= 0; i -= 1) {
             System.out.println(String.format("%02d: ", i)+ s.solve(i));
         }
