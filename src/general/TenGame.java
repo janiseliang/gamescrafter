@@ -1,14 +1,14 @@
-package gamesToZero;
+package general;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
 
 /** Parent class of TenGame and TwentyFiveGame. */
-public abstract class GameToZero {
-    static int[] legalMoves;
-    static int start;
+public class TenGame extends Game{
+    static int[] legalMoves = new int[]{1, 2};
+    static int start = 10;
 
-    public static int doMove(int position, int move) {
+    public int doMove(int position, int move) {
         return position - move;
     }
 
@@ -26,22 +26,27 @@ public abstract class GameToZero {
         return res;
     }
 
-    public static String primitiveValue(int position) {
+    public String primitiveValue(int position) {
         return position == 0 ? "lose" : "not_primitive";
     }
 
-    public static void solve(Solver s) {
+    public int[] symmetries(int position) {
+        return new int[]{};
+    }
+
+    public static void main(String[] args) {
+        Solver s = new Solver(new TenGame());
         TreeMap<Integer, int[]> res = new TreeMap<>();
 
         int[] totals = new int[] {0, 0, 0, 0};
 
         for (int i = start; i >= 0; i -= 1) {
             Solver.State x = s.solve(i);
-            if (!res.containsKey(x.rem)) {
-                res.put(x.rem, new int[]{0, 0, 0});
+            if (!res.containsKey(x.remote)) {
+                res.put(x.remote, new int[]{0, 0, 0});
             }
             int j = x.win ? 0 : (x.lose ? 1 : 2);
-            res.get(x.rem)[j] += 1;
+            res.get(x.remote)[j] += 1;
             totals[j]++; totals[3]++;
         }
 

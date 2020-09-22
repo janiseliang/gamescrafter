@@ -1,6 +1,6 @@
 package gamesToZero;
 
-/** Game solver searches game tree and finds win value of POSITION.
+/** Generalized.Game solver searches game tree and finds win value of POSITION.
  *  Caches previously-found win values of POSITION to optimize time.
  *  @author janise
  */
