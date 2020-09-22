@@ -13,17 +13,13 @@ public class Solver {
         game = g;
     }
 
-    public State solve(int board) {
-        return solve(board, false);
-    }
-
     public State solve(int board, boolean symmetries) {
         if (memo.containsKey(board)) {
             return memo.get(board);
         }
         String pVal = game.primitiveValue(board);
         if (!pVal.equals("not_primitive")) { //primitive state
-            return memoize(board, pVal, 0);
+            return memoize(board, pVal, 0, symmetries);
         }
         int[] moves = game.generateMoves(board);
         State[] future = new State[moves.length];
@@ -56,20 +52,34 @@ public class Solver {
         remoteness += 1;
         String v = val == 'l' ? "lose" : (val == 'w' ? "win" : "tie");
 
-        if (symmetries) {
-            int[] sym = game.symmetries(board);
-            for (int b : sym) {
-                memoize(b, v, remoteness);
-            }
-        }
-
-        return memoize(board, v, remoteness);
+        return memoize(board, v, remoteness, symmetries);
     }
 
     public State memoize(int b, String value, int remoteness) {
+        return memoize(b, value, remoteness, false);
+    }
+
+    public State memoize(int b, String value, int remoteness, boolean symmetries) {
+        if (symmetries) {
+            b = minSym(game.symmetries(b));
+        }
+        if (memo.containsKey(b)) {
+            return memo.get(b);
+        }
         State st = new State(value, remoteness);
         memo.put(b, st);
         return st;
+    }
+
+    private int minSym(int[] symmetries) {
+        if (symmetries.length == 0) {
+            return 0;
+        }
+        int min = symmetries[0];
+        for (int x : symmetries) {
+            min = Math.min(min, x);
+        }
+        return min;
     }
 
     /** Subclass for keeping track of win value-remoteness tuples. */

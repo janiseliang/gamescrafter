@@ -4,11 +4,14 @@ import java.util.*;
 
 public class TicTacToe extends Game {
 
-    static int start = 0;
+    public TicTacToe() {
+        start = 0;
+        name = "Tic Tac Toe";
+    }
 
     public int doMove(int val, int move) {
         int[] board = getBoard(val);
-        int player = whoseTurn(board);
+        int player = toMove(board);
         board[move] = player;
         return getVal(board);
     }
@@ -65,7 +68,7 @@ public class TicTacToe extends Game {
         int[] flip3 = new int[]{i, f, c, h, e, b, g, d, a};
 
         TreeSet<Integer> set = new TreeSet<>();
-        Collections.addAll(set, getVal(rot1), getVal(rot2), getVal(rot3),
+        Collections.addAll(set, val, getVal(rot1), getVal(rot2), getVal(rot3),
                 getVal(flip0), getVal(flip1), getVal(flip2), getVal(flip3));
 
         int[] ret = new int[set.size()];
@@ -77,7 +80,7 @@ public class TicTacToe extends Game {
         return ret;
     }
 
-    private int whoseTurn(int[] board) {
+    private int toMove(int[] board) {
         int ones = 0;
         int twos = 0;
         for (int sq : board) {
@@ -99,7 +102,6 @@ public class TicTacToe extends Game {
     }
 
     private static int getVal(int[] board) {
-        assert board.length == 9;
         int val = 0;
         for (int i = 0; i < board.length; i ++) {
             val += board[i] * (Math.pow(3, i)); //msb last
@@ -107,53 +109,9 @@ public class TicTacToe extends Game {
         return val;
     }
 
-    public static Solver solve() {
-        Game g = new TicTacToe();
-        Solver s = new Solver(g);
-        TreeMap<Integer, int[]> res = new TreeMap<>();
-
-        int[] totals = new int[] {0, 0, 0, 0};
-
-        s.solve(0/*, true*/);
-        TreeMap<Integer, Solver.State> positions = s.memo;
-        for (int b : positions.descendingKeySet()) {
-            Solver.State x = positions.get(b);
-            if (!res.containsKey(x.remote)) {
-                res.put(x.remote, new int[]{0, 0, 0});
-            }
-            int j = x.win ? 0 : (x.lose ? 1 : 2);
-            res.get(x.remote)[j] += 1;
-            totals[j]++; totals[3]++;
-        }
-
-        System.out.println("Remote   Win    Lose    Tie     Total");
-        System.out.println("-------------------------------------");
-
-        for (int i : res.descendingKeySet()) {
-            int[] x = res.get(i);
-            System.out.printf("%-4d     %-4d   %-4d    %-4d    %-4d\n",
-                    i, x[0], x[1], x[2], x[0]+x[1]+x[2]);
-        }
-        System.out.println("-------------------------------------");
-        System.out.printf("Total    %-4d   %-4d    %-4d    %-4d\n",
-                totals[0], totals[1], totals[2], totals[3]);
-        return s;
-    }
-
     public static void main(String[] args) {
-        Solver s = solve();
-        /*TicTacToe g = new TicTacToe();
-        Solver s = new Solver(g);
-
-        int[] b = new int[]{1, 0, 2, 0, 0, 0, 0, 0, 0};
-        int bval = getVal(b);
-        int turn = g.whoseTurn(b);
-
-        s.solve(bval);
-        System.out.println("win: " + s.memo.get(bval).win);
-        System.out.println("lose: " + s.memo.get(bval).lose);
-        System.out.println("tie: " + s.memo.get(bval).tie);
-        System.out.println("remoteness: " + s.memo.get(bval).remote);
-        */
+        Game g = new TicTacToe();
+        solve(g, false);
+        solve(g, true);
     }
 }
